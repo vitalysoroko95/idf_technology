@@ -7,7 +7,6 @@ const routes = [
   { path: '/signup-info', breadcrumb: 'SignupInfo' },
   {
     path: '/signup-info/personal-info',
-
     breadcrumb: 'PersonalInfo',
   },
 ];
