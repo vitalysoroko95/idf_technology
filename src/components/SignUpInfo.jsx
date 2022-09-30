@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
@@ -17,6 +17,7 @@ const SignUpInfo = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    control,
   } = useForm();
 
   const onSubmit = (data) => {
@@ -75,6 +76,7 @@ const SignUpInfo = () => {
             }
             type='email'
             placeholder='Email'
+            defaultValue={signUpInfo.email}
             {...register('email', {
               value: '',
               required: {
@@ -103,6 +105,7 @@ const SignUpInfo = () => {
             }
             type='password'
             placeholder='Password'
+            defaultValue={signUpInfo.password}
             {...register('password', {
               value: '',
               required: {
@@ -115,7 +118,7 @@ const SignUpInfo = () => {
               },
               maxLength: {
                 value: validateSchema.password.maxLength,
-                message: `Must be no more than ${validateSchema.password.minLength} characters`,
+                message: `Must be no more than ${validateSchema.password.maxLength} characters`,
               },
               pattern: {
                 value: validateSchema.password.regExp,
@@ -139,6 +142,7 @@ const SignUpInfo = () => {
             }
             type='password'
             placeholder='Confirm password'
+            defaultValue={signUpInfo.confirm_password}
             {...register('confirm_password', {
               value: '',
               required: {
@@ -151,7 +155,7 @@ const SignUpInfo = () => {
               },
               maxLength: {
                 value: validateSchema.password.maxLength,
-                message: `Must be no more than ${validateSchema.password.minLength} characters`,
+                message: `Must be no more than ${validateSchema.password.maxLength} characters`,
               },
               validate: (val) => {
                 if (watch('password') !== val) {
@@ -171,9 +175,8 @@ const SignUpInfo = () => {
           className='w-[400px] transition rounded-md text-lg p-2 hover:text-white hover:bg-[#912a50] bg-[#ec5990]'
           type='submit'
         >
-          submit
+          Next
         </button>
-
       </form>
     </div>
   );

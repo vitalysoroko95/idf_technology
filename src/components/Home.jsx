@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <div className='flex h-full w-full justify-center items-center'>
-      <button className='p-10 inline-block bg-slate-800 text-pink-300'>
-        <Link to='/signup-info'>Sign up</Link>
-      </button>
+      <Link to='/signup-info'>
+        <button className='p-10  bg-slate-800 text-pink-300'>Sign up</button>
+      </Link>
     </div>
   );
 };

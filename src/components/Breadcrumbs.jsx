@@ -13,14 +13,15 @@ const routes = [
 
 const Breadcrumbs = () => {
   const breadcrumbs = useBreadcrumbs(routes);
+
   return (
-    <nav className='p-2 mt-1'>
+    <div className='text-xl text-black m-2'>
       {breadcrumbs.map(({ match, breadcrumb }) => (
-        <Link key={match.pathname} to={match.pathname}>
+        <Link className='px-2' key={match.pathname} to={match.pathname}>
           {breadcrumb} /
         </Link>
       ))}
-    </nav>
+    </div>
   );
 };
 
