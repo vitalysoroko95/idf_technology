@@ -15,9 +15,13 @@ const Breadcrumbs = () => {
   const breadcrumbs = useBreadcrumbs(routes);
 
   return (
-    <div className='text-xl text-black m-2'>
+    <div className='text-xl text-white m-2'>
       {breadcrumbs.map(({ match, breadcrumb }) => (
-        <Link className='px-2' key={match.pathname} to={match.pathname}>
+        <Link
+          className='px-1 hover:text-[#ec5990]'
+          key={match.pathname}
+          to={match.pathname}
+        >
           {breadcrumb} /
         </Link>
       ))}

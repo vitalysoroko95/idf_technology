@@ -1,6 +1,7 @@
 import React from 'react';
-
 import ReactDOM from 'react-dom';
+
+import Table from 'react-bootstrap/Table';
 
 const Modal = ({ isShowing, hide, signUpInfo, profileInfo }) =>
   isShowing
@@ -24,7 +25,43 @@ const Modal = ({ isShowing, hide, signUpInfo, profileInfo }) =>
                 e.stopPropagation();
               }}
             >
-              <div className='flex flex-col w-full h-full items-center justify-center gap-5 my-5 mx-0'>
+              <Table striped bordered hover variant='dark'>
+                <tbody>
+                  <tr>
+                    <td>Name: </td>
+                    <td> {profileInfo.firstName}</td>
+                  </tr>
+                  <tr>
+                    <td>Last name: </td>
+                    <td> {profileInfo.lastName}</td>
+                  </tr>
+                  <tr>
+                    <td>Sex: </td>
+                    <td> {profileInfo.sex} </td>
+                  </tr>
+                  <tr>
+                    <td>Birthdate: </td>
+                    <td>
+                      {profileInfo.birthDay} / {profileInfo.birthMonth} /
+                      {profileInfo.birthYear}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Email: </td>
+                    <td>{signUpInfo.email}</td>
+                  </tr>
+                  <tr>
+                    <td>Hobby: </td>
+                    <td>{profileInfo.hobby.join(', ')}</td>
+                  </tr>
+                  <tr>
+                    <td>Favorite ocean: </td>
+                    <td>{profileInfo.selectOcean} </td>
+                  </tr>
+                </tbody>
+              </Table>
+
+              {/* <div className='flex flex-col w-full h-full items-center justify-center gap-5 my-5 mx-0'>
                 <p>Name: {profileInfo.firstName}</p>
                 <p>Last name: {profileInfo.lastName} </p>
                 <p>Sex: {profileInfo.sex} </p>
@@ -35,7 +72,7 @@ const Modal = ({ isShowing, hide, signUpInfo, profileInfo }) =>
                 <p>Email: {signUpInfo.email} </p>
                 <p>Hobby: {profileInfo.hobby.join(', ')} </p>
                 <p>Favorite ocean: {profileInfo.selectOcean} </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </React.Fragment>,
