@@ -209,7 +209,7 @@ const SignUpInfo = () => {
         </label>
 
         <button
-          className='w-full transition rounded-md text-lg p-2 hover:text-white hover:bg-[#912a50] bg-[#ec5990]'
+          className='w-full ease-out duration-300 rounded-md text-lg p-2 hover:text-white hover:bg-[#912a50] bg-[#ec5990]'
           type='submit'
         >
           Next

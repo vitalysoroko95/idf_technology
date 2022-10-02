@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Modal from './Modal';
 import useModal from '../utils/hooks/useModal';
 import InputMask from 'react-input-mask';
-import { dataSlice, setValidate } from '../store/DataSlice';
+import { dataSlice } from '../store/DataSlice';
 
 const PersonalInfo = () => {
   const dispatch = useDispatch();
@@ -23,8 +23,6 @@ const PersonalInfo = () => {
     setValue,
     getValues,
   } = useForm();
-
-
 
   useEffect(() => {
     if (profileInfo.firstName) {
@@ -319,13 +317,13 @@ const PersonalInfo = () => {
         </div>
 
         <Link className='w-full' to='/signup-info'>
-          <button className='w-full mb-7 transition rounded-md text-lg p-2 hover:text-white hover:bg-[#912a50] bg-[#ec5990]'>
+          <button className='w-full mb-7 ease-out duration-300 rounded-md text-lg p-2 hover:text-white hover:bg-[#912a50] bg-[#ec5990]'>
             Change SignUp Information
           </button>
         </Link>
 
         <button
-          className='w-full transition rounded-md text-lg p-2 hover:text-white hover:bg-[#912a50] bg-[#ec5990]'
+          className='w-full ease-out duration-300 rounded-md text-lg p-2 hover:text-white hover:bg-[#912a50] bg-[#ec5990]'
           type='submit'
         >
           Complete
