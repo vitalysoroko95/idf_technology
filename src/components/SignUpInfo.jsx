@@ -9,7 +9,7 @@ import { setSignUpInfo, setValidate } from '../store/DataSlice';
 const SignUpInfo = () => {
   const dispatch = useDispatch();
   const { validateSchema } = useSelector((store) => store.schema);
-  const { signUpInfo, isSignUpValidate } = useSelector((store) => store.data);
+  const { signUpInfo } = useSelector((store) => store.data);
   const navigate = useNavigate();
 
   const defaultValues = {
