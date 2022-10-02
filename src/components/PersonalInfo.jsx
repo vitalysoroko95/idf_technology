@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,16 +6,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import Modal from './Modal';
 import useModal from '../utils/hooks/useModal';
 import InputMask from 'react-input-mask';
-import { dataSlice } from '../store/DataSlice';
+import { dataSlice, setValidate } from '../store/DataSlice';
 
 const PersonalInfo = () => {
   const dispatch = useDispatch();
   const { validateSchema } = useSelector((store) => store.schema);
-  const { signUpInfo, isSignUpValidate, profileInfo } = useSelector(
-    (store) => store.data
-  );
+  const { signUpInfo, profileInfo } = useSelector((store) => store.data);
   const { isShowing, toggle } = useModal();
-  const navigate = useNavigate();
   const { setProfileInfo } = dataSlice.actions;
 
   const {
@@ -26,6 +23,8 @@ const PersonalInfo = () => {
     setValue,
     getValues,
   } = useForm();
+
+
 
   useEffect(() => {
     if (profileInfo.firstName) {

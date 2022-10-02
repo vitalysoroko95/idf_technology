@@ -3,7 +3,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
-import { fetchSchema } from '../store/SchemaSlice';
+
+
 import { setSignUpInfo, setValidate } from '../store/DataSlice';
 
 const SignUpInfo = () => {
@@ -32,7 +33,9 @@ const SignUpInfo = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(setValidate(false));
+    return () => {
+      dispatch(setValidate(false));
+    };
   }, []);
 
   const {
