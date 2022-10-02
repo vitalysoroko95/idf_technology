@@ -1,11 +1,8 @@
-import React from "react";
-
+import React from 'react';
 
 const Header = () => {
   return (
-    <header className="h-20 bg-slate-600 flex justify-between text-white">
-
-    </header>
+    <header className='h-20 bg-[#111729] flex justify-between text-white'></header>
   );
 };
 

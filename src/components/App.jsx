@@ -7,29 +7,14 @@ import Layout from './Layout';
 import PersonalInfo from './PersonalInfo';
 import SignUpInfo from './SignUpInfo';
 import { setData } from '../store/SchemaSlice';
+import { fetchSchema } from '../store/SchemaSlice';
 
 const App = () => {
   const dispatch = useDispatch();
   const { validateSchema } = useSelector((store) => store.schema);
 
-  const getData = async () => {
-    await fetch('data.json', {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        dispatch(setData(data));
-      });
-  };
-
   useEffect(() => {
-    getData();
-    console.log(validateSchema);
+    dispatch(fetchSchema());
   }, []);
 
   return (

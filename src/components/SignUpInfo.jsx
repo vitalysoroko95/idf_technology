@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
-
-import { setSignUpInfo } from '../store/DataSlice';
+import { fetchSchema } from '../store/SchemaSlice';
+import { setSignUpInfo, setValidate } from '../store/DataSlice';
 
 const SignUpInfo = () => {
   const dispatch = useDispatch();
@@ -12,71 +12,106 @@ const SignUpInfo = () => {
   const { signUpInfo, isSignUpValidate } = useSelector((store) => store.data);
   const navigate = useNavigate();
 
+  const defaultValues = {
+    phoneNumber: signUpInfo.phoneNumber,
+  };
+
+  useEffect(() => {
+    if (signUpInfo.phoneNumber) {
+      setValue('phoneNumber', signUpInfo.phoneNumber);
+    }
+    if (signUpInfo.email) {
+      setValue('email', signUpInfo.email);
+    }
+    if (signUpInfo.password) {
+      setValue('password', signUpInfo.password);
+    }
+    if (signUpInfo.confirm_password) {
+      setValue('confirm_password', signUpInfo.confirm_password);
+    }
+  }, []);
+
+  useEffect(() => {
+    dispatch(setValidate(false));
+  }, []);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
     control,
-  } = useForm();
+  } = useForm({ defaultValues });
 
   const onSubmit = (data) => {
-    dispatch(setSignUpInfo(data));
     redirect();
+    dispatch(setSignUpInfo(data));
   };
 
   const redirect = () => {
-    if (isSignUpValidate) {
-      return navigate('/signup-info/personal-info');
-    }
+    navigate('/signup-info/personal-info');
   };
 
   return (
-    <div className='flex'>
+    <div className='flex items-center justify-center'>
       <form
-        className='flex flex-col items-center w-full text-sm'
+        className='flex flex-col w-[27rem] sm:w-screen px-4 items-center text-sm'
         onSubmit={handleSubmit(onSubmit)}
       >
-        <label className='relative mb-7'>
-          <InputMask
-            className={
-              errors.phoneNumber
-                ? 'relative block w-[400px] h-10 p-[0 10] px-2.5 font-normal transition leading-10 border-solid border-2 border-red-700/50 shadow-md shadow-red-700/50 rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
-                : 'relative block w-[400px] h-10 p-[0 10] px-2.5 font-normal transition leading-10 border-solid border-2 border-[#0e101c] rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
-            }
-            mask='+375 (99) 999 99 99'
-            alwaysShowMask={false}
-            maskplaceholder='+375 (XX) XXX XX XX'
-            type='tel'
-            placeholder='Phone'
-            {...register('phoneNumber', {
+        <label className='relative w-full mb-7'>
+          <Controller
+            name='phoneNumber'
+            control={control}
+            rules={{
               required: {
                 value: validateSchema.mobilePhone.required,
                 message: 'This field is required',
               },
-              pattern: {
-                value: validateSchema.mobilePhone.regExp,
-                message: 'Incorrect value',
+              pattern: validateSchema.mobilePhone.regExp,
+              validate: (val) => {
+                if (val.includes('_')) {
+                  return 'Enter correct number';
+                }
               },
-            })}
+            }}
+            render={({ field: { onChange, value } }) => (
+              <InputMask
+                mask='+375 (99) 999 99 99'
+                value={value}
+                onChange={onChange}
+              >
+                {(inputProps) => (
+                  <input
+                    {...inputProps}
+                    type='tel'
+                    placeholder='Phone'
+                    className={
+                      errors.phoneNumber
+                        ? 'relative block w-full  bg-[#1e293a]  h-10 p-[0 10] px-2.5 font-normal text-white transition leading-10 border-solid border-2 border-red-700/50 shadow-md shadow-red-700/50 rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
+                        : 'relative block w-full  bg-[#1e293a]  h-10 p-[0 10] px-2.5 font-normal text-white  transition leading-10 border-solid border-2 border-[#0e101c] rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
+                    }
+                  />
+                )}
+              </InputMask>
+            )}
           />
-          {errors.phoneNumber?.type === 'required' && (
-            <p className='absolute ml-3 z-10 bg-white  top-[-15px] text-red-800 text-sm font-light text-start p-1 inline-block'>
-              This field is required
+          {errors.phoneNumber && (
+            <p className='absolute ml-3 z-10 bg-[#1e293a] top-[-15px] text-red-800 text-sm font-light text-start p-1 inline-block'>
+              {errors.phoneNumber.message}
             </p>
           )}
         </label>
 
-        <label className='relative mb-7'>
+        <label className='relative w-full mb-7'>
           <input
             className={
               errors.email
-                ? 'relative block w-[400px] h-10 p-[0 10] px-2.5 font-normal transition leading-10 border-solid border-2 border-red-700/50 shadow-md shadow-red-700/50 rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
-                : 'relative block w-[400px] h-10 p-[0 10] px-2.5 font-normal transition leading-10 border-solid border-2 border-[#0e101c] rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
+                ? 'relative block w-full bg-[#1e293a]  h-10 p-[0 10] px-2.5 font-normal text-white transition leading-10 border-solid border-2 border-red-700/50 shadow-md shadow-red-700/50 rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
+                : 'relative block w-full bg-[#1e293a] h-10 p-[0 10] px-2.5 font-normal text-white transition leading-10 border-solid border-2 border-[#0e101c] rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
             }
             type='email'
             placeholder='Email'
-            defaultValue={signUpInfo.email}
             {...register('email', {
               value: '',
               required: {
@@ -90,18 +125,18 @@ const SignUpInfo = () => {
             })}
           />
           {errors.email && (
-            <p className='absolute ml-3 z-10 transition-all bg-white  top-[-15px] text-red-800 text-sm font-light text-start p-1 inline-block'>
+            <p className='absolute ml-3 z-10 transition-all bg-[#1e293a] top-[-15px] text-red-800 text-sm font-light text-start p-1 inline-block'>
               {errors.email.message}
             </p>
           )}
         </label>
 
-        <label className='relative mb-7'>
+        <label className='relative w-full mb-7'>
           <input
             className={
               errors.password
-                ? 'relative block  w-[400px] h-10 p-[0 10] px-2.5 font-normal transition leading-10 border-solid border-2 border-red-700/50 shadow-md shadow-red-700/50 rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
-                : 'relative block  w-[400px] h-10 p-[0 10] px-2.5 font-normal transition leading-10 border-solid border-2 border-[#0e101c] rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
+                ? 'relative block  w-full bg-[#1e293a] h-10 p-[0 10] px-2.5 font-normal text-white transition leading-10 border-solid border-2 border-red-700/50 shadow-md shadow-red-700/50 rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
+                : 'relative block  w-full bg-[#1e293a] h-10 p-[0 10] px-2.5 font-normal text-white transition leading-10 border-solid border-2 border-[#0e101c] rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
             }
             type='password'
             placeholder='Password'
@@ -127,18 +162,18 @@ const SignUpInfo = () => {
             })}
           />
           {errors.password && (
-            <p className='absolute ml-3 z-10 bg-white  top-[-15px] text-red-800 text-sm font-light text-start p-1 inline-block'>
+            <p className='absolute ml-3 z-10 bg-[#1e293a] top-[-15px] text-red-800 text-sm font-light text-start p-1 inline-block'>
               {errors.password.message}
             </p>
           )}
         </label>
 
-        <label className='relative mb-7'>
+        <label className='relative w-full mb-7'>
           <input
             className={
               errors.confirm_password
-                ? 'relative block w-[400px] h-10 p-[0 10] px-2.5 font-normal transition leading-10 border-solid border-2 border-red-700/50 shadow-md shadow-red-700/50 rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
-                : 'relative block w-[400px] h-10 p-[0 10] px-2.5 font-normal transition leading-10 border-solid border-2 border-[#0e101c] rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
+                ? 'relative block w-full bg-[#1e293a] h-10 p-[0 10] px-2.5 font-normal text-white transition leading-10 border-solid border-2 border-red-700/50 shadow-md shadow-red-700/50 rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
+                : 'relative block w-full bg-[#1e293a] h-10 p-[0 10] px-2.5 font-normal text-white transition leading-10 border-solid border-2 border-[#0e101c] rounded-md focus:outline-none focus:border-solid focus:border-2 focus:border-[#ec5990]'
             }
             type='password'
             placeholder='Confirm password'
@@ -165,14 +200,14 @@ const SignUpInfo = () => {
             })}
           />
           {errors.confirm_password && (
-            <p className='absolute ml-3 z-10 bg-white top-[-15px] text-red-800 text-sm font-light text-start p-1 inline-block'>
+            <p className='absolute ml-3 z-10 bg-[#1e293a] top-[-15px] text-red-800 text-sm font-light text-start p-1 inline-block'>
               {errors.confirm_password.message}
             </p>
           )}
         </label>
 
         <button
-          className='w-[400px] transition rounded-md text-lg p-2 hover:text-white hover:bg-[#912a50] bg-[#ec5990]'
+          className='w-full transition rounded-md text-lg p-2 hover:text-white hover:bg-[#912a50] bg-[#ec5990]'
           type='submit'
         >
           Next

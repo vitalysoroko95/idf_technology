@@ -12,8 +12,12 @@ export const dataSlice = createSlice({
   reducers: {
     setSignUpInfo: (state, action) => {
       state.signUpInfo = action.payload;
-      state.isSignUpValidate = true;
-     
+      if (Object.keys(state.signUpInfo).length === 4) {
+        state.isSignUpValidate = true;
+      }
+    },
+    setValidate: (state, action) => {
+      state.isSignUpValidate = action.payload;
     },
     setProfileInfo: (state, action) => {
       state.profileInfo = action.payload;
@@ -21,5 +25,5 @@ export const dataSlice = createSlice({
   },
 });
 
-export const { setSignUpInfo, setProfileInfo } = dataSlice.actions;
+export const { setSignUpInfo, setProfileInfo, setValidate } = dataSlice.actions;
 export default dataSlice.reducer;

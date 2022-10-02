@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
   return (
     <div className='flex min-h-screen  w-full flex-col justify-between'>
       <Header />
-      <main className='flex flex-col justify-start  h-[calc(100vh-10rem)]'>
+      <main className='flex flex-col bg-[#1e293a] justify-start  h-[calc(100vh-10rem)] py-4'>
         <Breadcrumbs />
         {children}
       </main>
